@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  mysql:
+    env_file:
+      - .env
+    image: mysql:8.0
+    container_name: mysql_data
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+
+  python:
+    build: .
+    container_name: python_data
+    depends_on:
+      - mysql-data
+    volumes:
+      - .:/app
+    command: python main.py
+
+volumes:
+  mysql_data:
