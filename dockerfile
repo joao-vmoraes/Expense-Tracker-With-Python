@@ -13,7 +13,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia todo o código da aplicação
-COPY ./app /app
+COPY . .
 
 # Comando para rodar a aplicação
-CMD ["python", "main.py"]
+CMD ["python","-u","app/src/main.py"]

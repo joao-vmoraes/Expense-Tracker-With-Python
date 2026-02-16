@@ -5,7 +5,7 @@ services:
     env_file:
       - .env
     image: mysql:8.0
-    container_name: mysql_data
+    container_name: mysql_data_Expense_Tracker
     restart: always
     ports:
       - "3306:3306"
@@ -14,12 +14,12 @@ services:
 
   python:
     build: .
-    container_name: python_data
+    container_name: python_data_Expense_Tracker
     depends_on:
-      - mysql-data
+      - mysql
     volumes:
       - .:/app
-    command: python main.py
+    command: python app/src/main.py
 
 volumes:
   mysql_data:
