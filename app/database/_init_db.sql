@@ -4,15 +4,15 @@ CREATE TABLE IF NOT EXISTS `categorias` (
     `id` int unsigned NOT NULL AUTO_INCREMENT,
     `nome` varchar(100) NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO categorias (nome) VALUES
-	('🍔 Alimentação'),
-	('🚗 Transporte'),
-	('🎮 Lazer'),
-	('💊 Saúde'),
-	('🏠 Moradia'),
-	('📱 Outrossss');
+	('Alimentaaoo'),
+	('Transporte'),
+	('Lazer'),
+	('Saude'),
+	('Moradia'),
+	('Outros');
 
 
 -- dados_db.Compra definition
@@ -27,4 +27,4 @@ CREATE TABLE IF NOT EXISTS `compra` (
     PRIMARY KEY (`id`),
     KEY `Compra_categorias_FK` (`id_categoria`),
     CONSTRAINT `Compra_categorias_FK` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
