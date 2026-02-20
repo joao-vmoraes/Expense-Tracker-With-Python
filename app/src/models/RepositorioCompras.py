@@ -33,7 +33,8 @@ class RepositorioCompras:
         conn = conectar_banco()
         with conn.cursor() as cursor:
             sql = (
-                'SELECT * FROM compras '
+                'SELECT  compras.nome as cnome, ca.nome AS categoria_nome, '  'valor, data ,compras.id as coid FROM compras '
+                'INNER JOIN categorias ca ON compras.id_categoria = ca.id; '
             )
             cursor.execute(sql)
             cursor.close()
@@ -48,10 +49,10 @@ class RepositorioCompras:
                 'WHERE YEAR(data) = %s AND MONTH(data) = %s '
             ) 
             cursor.execute(sql, (ano, mes))
-            for row in cursor.fetchall():
-                print(row)
+            result = cursor.fetchall()
             cursor.close()
             conn.close()
+            return result # type: ignore
     
     def listar_todas_compras_por_categoria(self) -> list:
         conn = conectar_banco()

@@ -1,4 +1,2 @@
-SELECT c.nome as cnome, SUM(compras.valor) from compras
-INNER JOIN categorias c ON compras.id_categoria = c.id
-GROUP BY id_categoria
-ORDER BY SUM(compras.valor) DESC
+SELECT  compras.nome as cnome, ca.nome AS categoria_nome,  valor, data ,compras.id as coid FROM compras
+INNER JOIN categorias ca ON compras.id_categoria = ca.id;
