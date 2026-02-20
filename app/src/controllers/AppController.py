@@ -3,14 +3,7 @@ import models.RepositorioCompras as RepositorioCompras
 import view.ComprasView as ComprasView
 import models.RepositorioCategorias as RepositorioCategorias
 import view.CategoriasView as CategoriasView
-
-branco = '\033[97m'
-vermelho = '\033[91m'
-azul = '\033[94m'
-verde = '\033[92m'
-amarelo = '\033[93m'
-ciano = '\033[96m'
-normal = '\033[0m'
+from utils.colors import *
 
 class AppController:
 
@@ -19,17 +12,18 @@ class AppController:
         self.view = ComprasView.ComprasView()
         self.repositorio_categorias = RepositorioCategorias.RepositorioCategorias()
         self.view_categorias = CategoriasView.CategoriasView()
+    
 
     def adicionar_compra(self) -> None:
         try:
-            compra_texto = input("Digite a nova compra (ex: 49.90 hamburguer) ").strip()
+            compra_texto = self.view.input("Digite a nova compra (ex: 49.90 pizza de frango) ").strip()
+
             categorias = self.repositorio_categorias.listar_categorias()
             self.view_categorias.exibir_categorias(categorias)
-            categoria = int(input("Digite o ID da categoria da sua compra >> "))
+            categoria = int(self.view.input("Digite o ID da categoria da sua compra >> "))
 
-            limite = compra_texto.find(' ')
-            valor = float(compra_texto[:limite])
-            nome = compra_texto[limite + 1:]
+            valor, nome = compra_texto.split(' ', 1)
+            valor = float(valor)
 
             compra = Compra.Compra(categoria, nome, valor)
             self.repositorio_compras.adicionar_compra(compra)
@@ -47,9 +41,9 @@ class AppController:
     def listar_compras_por_data(self) -> None:
         try:
             self.view.mostrar_mensagem("Digite o ano (YYYY): ")
-            ano = int(input('>>'))
+            ano = int(self.view.input('>>'))
             self.view.mostrar_mensagem("Digite o mês (MM): ")
-            mes = int(input('>>'))
+            mes = int(self.view.input('>>'))
 
             compras = self.repositorio_compras.listar_todas_compras_por_data(ano, mes)
             self.view.exibir_compras(compras)
@@ -67,17 +61,17 @@ class AppController:
 
     def atualizar_compra(self):
         try:
-            _id = int(input(f"{amarelo}Digite o id da compra que voce quer alterar >> {normal}"))
-            compra = input(f"{amarelo}Digite a nova compra (ex: 49.90 hamburguer) {normal}").strip()
+            _id = int(self.view.input(f"{amarelo}Digite o id da compra que voce quer alterar >> {normal}"))
+            compra_texto = self.view.input(f"{amarelo}Digite a nova compra (ex: 49.90 hamburguer) {normal}").strip()
+
             self.view_categorias.mostrar_mensagem("Categorias disponíveis:")
             categorias = self.repositorio_categorias.listar_categorias()
             self.view_categorias.exibir_categorias(categorias)
 
-            nova_categoria = int(input(f"{amarelo}Digite o ID da nova categoria >> {normal}"))
+            nova_categoria = int(self.view.input(f"{amarelo}Digite o ID da nova categoria >> {normal}"))
 
-            limite = compra.find(' ')
-            valor = float(compra[:limite])
-            nome = compra[limite + 1:]
+            valor, nome = compra_texto.split(' ', 1)
+            valor = float(valor)
 
             compra_atualizada = Compra.Compra(nova_categoria, nome, valor)
             self.repositorio_compras.atualizar_compra(_id, compra_atualizada)
@@ -87,7 +81,7 @@ class AppController:
 
     def remover_compra(self):
         try:
-            _id = int(input('Digite o id da compra que voce quer remover >> '))
+            _id = int(self.view.input('Digite o id da compra que voce quer remover >> '))
             self.repositorio_compras.remover_compra(_id)
             self.view.mostrar_mensagem(f"{verde}Compra removida com sucesso!{normal}")
         except Exception as e:

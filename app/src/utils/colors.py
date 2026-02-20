@@ -1,0 +1,7 @@
+branco = '\033[97m'
+vermelho = '\033[91m'
+azul = '\033[94m'
+verde = '\033[92m'
+amarelo = '\033[93m'
+ciano = '\033[96m'
+normal = '\033[0m'
