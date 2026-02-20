@@ -54,7 +54,7 @@ class AppController:
             compras = self.repositorio_compras.listar_todas_compras_por_data(ano, mes)
             self.view.exibir_compras(compras)
         except Exception as e:
-            self.view.mostrar_mensagem(f"Ocorreu um erro ao listar compras por data: {e}")
+            self.view.mostrar_mensagem(f"{vermelho}Ocorreu um erro ao listar compras por data: {e}{normal}")
 
 
     def listar_todas_compras_por_categoria(self) -> None:
@@ -62,18 +62,18 @@ class AppController:
             compras = self.repositorio_compras.listar_todas_compras_por_categoria()
             self.view.exibir_compras(compras)
         except Exception as e:
-            self.view.mostrar_mensagem(f"Ocorreu um erro ao listar compras por categoria: {e}")
+            self.view.mostrar_mensagem(f"{vermelho}Ocorreu um erro ao listar compras por categoria: {e}{normal}")
     
 
     def atualizar_compra(self):
         try:
-            _id = int(input('Digite o id da compra que voce quer alterar >> '))
-            compra = input("Digite a nova compra (ex: 49.90 hamburguer) ").strip()
+            _id = int(input(f"{amarelo}Digite o id da compra que voce quer alterar >> {normal}"))
+            compra = input(f"{amarelo}Digite a nova compra (ex: 49.90 hamburguer) {normal}").strip()
             self.view_categorias.mostrar_mensagem("Categorias disponíveis:")
             categorias = self.repositorio_categorias.listar_categorias()
             self.view_categorias.exibir_categorias(categorias)
 
-            nova_categoria = int(input("Digite o ID da nova categoria >> "))
+            nova_categoria = int(input(f"{amarelo}Digite o ID da nova categoria >> {normal}"))
 
             limite = compra.find(' ')
             valor = float(compra[:limite])
@@ -81,13 +81,14 @@ class AppController:
 
             compra_atualizada = Compra.Compra(nova_categoria, nome, valor)
             self.repositorio_compras.atualizar_compra(_id, compra_atualizada)
+            self.view.mostrar_mensagem(f"{verde}Compra atualizada com sucesso!{normal}")
         except Exception as e:
-            self.view.mostrar_mensagem(f"Erro ao atualizar compra: {e}")
+            self.view.mostrar_mensagem(f"{vermelho}Erro ao atualizar compra: {e}{normal}")
 
     def remover_compra(self):
         try:
             _id = int(input('Digite o id da compra que voce quer remover >> '))
             self.repositorio_compras.remover_compra(_id)
-            self.view.mostrar_mensagem("Compra removida com sucesso!")
+            self.view.mostrar_mensagem(f"{verde}Compra removida com sucesso!{normal}")
         except Exception as e:
-            self.view.mostrar_mensagem(f"Erro ao remover compra: {e}")
+            self.view.mostrar_mensagem(f"{vermelho}Erro ao remover compra: {e}{normal}")

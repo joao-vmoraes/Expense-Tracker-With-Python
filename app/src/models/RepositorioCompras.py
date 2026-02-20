@@ -88,7 +88,7 @@ class RepositorioCompras:
                 'UPDATE compras SET ' \
                 'nome = %s , ' \
                 'id_categoria = %s , ' \
-                'valor = %s , ' \
+                'valor = %s  ' \
                 'WHERE id = %s'
             )
             cursor.execute(sql, (compra.nome , compra.id_categoria, compra.valor, _id))
