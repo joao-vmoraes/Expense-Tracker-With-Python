@@ -6,18 +6,11 @@ amarelo = '\033[93m'
 ciano = '\033[96m'
 normal = '\033[0m'
 
-class ComprasView:
-    def __init__(self):
-        pass
 
-    @staticmethod
-    def exibir_compras(compras):
-        for row in compras:
-            for key, value in row.items():
-                print(f"{key}: {verde}{value}{normal} | ", end="")
-            print() # newline after each row
-
-
+class CategoriasView:
+    def __init__(self) -> None:
+        ...
+    
     @staticmethod
     def exibir_categorias(categorias):
         for row in categorias:

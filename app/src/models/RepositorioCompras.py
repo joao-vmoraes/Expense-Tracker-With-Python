@@ -29,11 +29,13 @@ class RepositorioCompras:
             cursor.close()
             conn.close()
 
+
     def listar_compras(self) -> list:
         conn = conectar_banco()
         with conn.cursor() as cursor:
             sql = (
-                'SELECT  compras.nome as cnome, ca.nome AS categoria_nome, '  'valor, data ,compras.id as coid FROM compras '
+                'SELECT  compras.nome as nome, ca.nome AS categoria, '
+                'valor, data ,compras.id as id FROM compras '
                 'INNER JOIN categorias ca ON compras.id_categoria = ca.id; '
             )
             cursor.execute(sql)
@@ -58,7 +60,7 @@ class RepositorioCompras:
         conn = conectar_banco()
         with conn.cursor() as cursor:
             sql = (
-                ' SELECT c.nome as cnome, SUM(compras.valor) from compras '
+                ' SELECT c.nome as nome, SUM(compras.valor) as total from compras '
                 ' INNER JOIN categorias c ON compras.id_categoria = c.id '
                 ' GROUP BY id_categoria '
                 ' ORDER BY SUM(compras.valor) DESC '
