@@ -1,21 +1,20 @@
+
 from models import Compra
 import pymysql
 import os
 import dotenv
-import cryptography
 
 dotenv.load_dotenv()
 
 def conectar_banco():
-    conn = pymysql.connect(
+    return pymysql.connect(
     host= os.getenv("MYSQL_HOST"),
     user= os.getenv("MYSQL_USER"),
     password= os.getenv("MYSQL_PASSWORD"), #type: ignore
     database= os.getenv("MYSQL_DATABASE"),
-    port=3306,
     cursorclass=pymysql.cursors.DictCursor
     ) #type: ignore
-    return conn
+
 
 class RepositorioCompras:
     def __init__(self) -> None:
@@ -30,17 +29,45 @@ class RepositorioCompras:
             cursor.close()
             conn.close()
 
-    def listar_compras(self) -> None:
+    def listar_compras(self) -> list:
         conn = conectar_banco()
         with conn.cursor() as cursor:
             sql = (
                 'SELECT * FROM compras '
             )
             cursor.execute(sql)
+            cursor.close()
+            conn.close()
+            return cursor.fetchall() # type: ignore
+
+    def listar_todas_compras_por_data(self, ano: int, mes: int) -> None:
+        conn = conectar_banco()
+        with conn.cursor() as cursor:
+            sql = (
+                'SELECT * FROM compras ' \
+                'WHERE YEAR(data) = %s AND MONTH(data) = %s '
+            ) 
+            cursor.execute(sql, (ano, mes))
             for row in cursor.fetchall():
                 print(row)
             cursor.close()
             conn.close()
+    
+    def listar_todas_compras_por_categoria(self) -> list:
+        conn = conectar_banco()
+        with conn.cursor() as cursor:
+            sql = (
+                ' SELECT c.nome as cnome, SUM(compras.valor) from compras '
+                ' INNER JOIN categorias c ON compras.id_categoria = c.id '
+                ' GROUP BY id_categoria '
+                ' ORDER BY SUM(compras.valor) DESC '
+            )
+            cursor.execute(sql)
+            result = cursor.fetchall() 
+            cursor.close()
+            conn.close()
+            return result # type: ignore
+            
     
     def remover_compra(self, id: int) -> None: 
         conn = conectar_banco()
@@ -56,12 +83,12 @@ class RepositorioCompras:
         with conn.cursor() as cursor:
             sql = (
                 'UPDATE compras SET ' \
-                'nome = %s ' \
-                'id_categoria = %s ' \
-                'valor = %s ' \
-                f'WHERE id = {_id}'
+                'nome = %s , ' \
+                'id_categoria = %s , ' \
+                'valor = %s , ' \
+                'WHERE id = %s'
             )
-            cursor.execute(sql, (compra.nome , compra.id_categoria, compra.valor))
+            cursor.execute(sql, (compra.nome , compra.id_categoria, compra.valor, _id))
             conn.commit()
 
             cursor.close()
