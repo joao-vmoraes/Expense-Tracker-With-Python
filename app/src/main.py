@@ -20,7 +20,12 @@ if __name__ == '__main__':
         print(f"{verde}7{normal} - Listar valor total das compras por categoria no mês")
         print(f"{verde}8{normal} - Sair")
 
-        escolha = int(input("Digite a opção desejada >> "))
+        try:
+            escolha = int(input("Digite a opção desejada >> "))
+
+        except ValueError:
+            print("Opção inválida. Por favor, digite um número válido.")
+            continue
 
         if escolha == 1:
             controlador.adicionar_compra()
