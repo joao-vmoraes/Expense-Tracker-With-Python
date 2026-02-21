@@ -16,7 +16,7 @@ class AppController:
 
     def adicionar_compra(self) -> None:
         try:
-            compra_texto = self.view.input("Digite a nova compra (ex: 49.90 pizza de frango) ").strip()
+            compra_texto = self.view.input("Digite a nova compra (ex: 49.90 pizza de frango)\n >>  ").strip()
 
             categorias = self.repositorio_categorias.listar_categorias()
             self.view_categorias.exibir_categorias(categorias)
