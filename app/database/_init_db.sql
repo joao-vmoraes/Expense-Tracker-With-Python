@@ -12,6 +12,8 @@ INSERT INTO categorias (nome) VALUES
 	('Lazer'),
 	('Saude'),
 	('Moradia'),
+	('Roupas'),
+	('Eletronicos'),
 	('Outros');
 
 

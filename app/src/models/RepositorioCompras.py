@@ -80,6 +80,22 @@ class RepositorioCompras:
             conn.commit()
             cursor.close()
             conn.close()
+
+    def listar_compras_por_categoria_e_mes(self, ano: int, mes: int) -> list:
+        conn = conectar_banco()
+        with conn.cursor() as cursor:
+            sql = (
+                ' SELECT c.nome as nome, SUM(compras.valor) as total from compras '
+                ' INNER JOIN categorias c ON compras.id_categoria = c.id '
+                ' WHERE YEAR(compras.data) = %s AND MONTH(compras.data) = %s '
+                ' GROUP BY compras.id_categoria '
+                ' ORDER BY SUM(compras.valor) DESC '
+            )
+            cursor.execute(sql, (ano, mes))
+            result = cursor.fetchall() 
+            cursor.close()
+            conn.close()
+            return result # type: ignore
     
     def atualizar_compra(self, _id: int, compra: Compra.Compra) -> None: 
         conn = conectar_banco()

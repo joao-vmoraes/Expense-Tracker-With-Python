@@ -57,7 +57,19 @@ class AppController:
             self.view.exibir_compras(compras)
         except Exception as e:
             self.view.mostrar_mensagem(f"{vermelho}Ocorreu um erro ao listar compras por categoria: {e}{normal}")
-    
+
+    def listar_compras_por_categoria_e_mes(self) -> None:
+        try:
+            self.view.mostrar_mensagem("Digite o ano (YYYY): ")
+            ano = int(self.view.input('>>'))
+            self.view.mostrar_mensagem("Digite o mês (MM): ")
+            mes = int(self.view.input('>>'))
+
+            compras = self.repositorio_compras.listar_compras_por_categoria_e_mes(ano, mes)
+            self.view.exibir_compras(compras)
+        except Exception as e:
+            self.view.mostrar_mensagem(f"{vermelho}Ocorreu um erro ao listar compras por categoria e mês: {e}{normal}")
+
 
     def atualizar_compra(self):
         try:
